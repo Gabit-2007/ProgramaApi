@@ -1,6 +1,5 @@
 import { connection } from "./connections.js";
 
-
 export async function listarCursos() {
   const comando = `
     select *
@@ -22,92 +21,36 @@ export async function inserirCurso(novoCurso) {
   return info.insertId;
 }
 
-export async function listarTenis() {
-    const comando = `
-    select *
-    from tenis
-    `;
-
-    let [registros] = await connection.query(comando);
-    return registros;
-}
-
-export async function inserirTenis(novoTenis) {
+export async function consultarCurso(id) {
   const comando = `
-    INSERT INTO tenis (nome, marca, cor, tamanho, preco, categoria, estoque)
-               values (?, ?, ?, ?, ?, ?, ?)
+    SELECT * 
+      FROM curso
+     WHERE id = ?
   `
 
-  let [info] = await connection.query(comando, [novoTenis.nome, novoTenis.marca, novoTenis.cor, novoTenis.tamanho, novoTenis.preco, novoTenis.categoria, novoTenis.estoque])
-  return info.insertId;
+  let [registros] = await conection.query(comando, [id]);
+  return registros[0];
 }
 
-export async function listarAnimes() {
-    const comando = `
-    select *
-    from animes
-    `;
 
-    let [registros] = await connection.query(comando);
-    return registros;
-}
-
-export async function inserirAnimes(novoAnime) {
+export async function filtrarPorNome(nome) {
   const comando = `
-    INSERT INTO animes (nome, genero, episodios, ano_lancamento, estudio, avaliacao)
-               values (?, ?, ?, ?, ?, ?)
+    SELECT * 
+      FROM curso
+     WHERE nome like ?
   `
 
-  let [info] = await connection.query(comando, [novoAnime.nome, novoAnime.genero, novoAnime.episodios, novoAnime.ano_lancamento, novoAnime.estudio, novoAnime.avaliacao])
-  return info.insertId;
-}
-
-export async function listarSeries() {
-    const comando = `
-    select *
-    from series
-    `;
-
-    let [registros] = await connection.query(comando);
-    return registros;
-}
-
-export async function inserirSeries(novaSerie) {
-  const comando = `
-    INSERT INTO series (titulo, ano_lancamento, genero, temporadas, criador, avaliacao)
-               values (?, ?, ?, ?, ?, ?)
-  `
-
-  let [info] = await connection.query(comando, [novaSerie.titulo, novaSerie.ano_lancamento, novaSerie.genero, novaSerie.temporadas, novaSerie.criador, novaSerie.avaliacao])
-  return info.insertId;
-}
-
-export async function listarFilmes() {
-    const comando = `
-    select *
-    from filmess
-    `;
-
-    let [registros] = await connection.query(comando);
-    return registros;
-}
-
-export async function inserirFilmes(novoFilme) {
-  const comando = `
-    INSERT INTO filmess (titulo, ano_lancamento, genero, duracao_minutos, diretor, avaliacao)
-               values (?, ?, ?, ?, ?, ?)
-  `
-
-  let [info] = await connection.query(comando, [novoFilme.titulo, novoFilme.ano_lancamento, novoFilme.genero, novoFilme.duracao_minutos, novoFilme.diretor, novoFilme.avaliacao])
-  return info.insertId;
-}
-
-export async function listarJogos() {
-  const comando = `
-  select *
-  from jogos
-  `;
-
-  let [registros] = await connection.query(comando);
+  let [registros] = await conection.query(comando, ['%'+nome+'%']);
   return registros;
+}
+
+import { conection } from "./conection.js"
+
+export async function deletarCurso(id) {
+  const comando = `
+    DELETE FROM curso
+          WHERE id = ?
+  `
+
+  let [info] = await conection.query(comando, [id]);
 }
