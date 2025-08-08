@@ -101,3 +101,13 @@ export async function inserirFilmes(novoFilme) {
   let [info] = await connection.query(comando, [novoFilme.titulo, novoFilme.ano_lancamento, novoFilme.genero, novoFilme.duracao_minutos, novoFilme.diretor, novoFilme.avaliacao])
   return info.insertId;
 }
+
+export async function listarJogos() {
+  const comando = `
+  select *
+  from filmess
+  `;
+
+  let [registros] = await connection.query(comando);
+  return registros;
+}
