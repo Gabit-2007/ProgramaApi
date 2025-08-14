@@ -1,5 +1,9 @@
+import { inserirAlunos, listarAlunos } from "./repositoryaluno.js";
 import * as repo from "./repositorycurso.js"
 import express from 'express'
+import { inserirLivro, listarLivro } from "./repositorylivro.js";
+import { inserirUsers, listarUsers } from "./repositoryuser.js";
+import { inserirProdutos, listarProdutos } from "./repositoryprodutos.js";
 const api = express();
 api.use(express.json());
 
@@ -97,6 +101,63 @@ api.post('/filmes', async (req, resp) => {
   let novoFilme = req.body;
   
   let id = await inserirFilmes(novoFilme);
+
+  resp.send({
+    novoId: id
+  })
+})
+
+api.get('/alunoss', async (req, resp) => {
+  let registros = await listarAlunos();
+  resp.send(registros)
+})
+
+api.post('/alunoss', async (req, resp) => {
+  let novoAluno = req.body;
+
+  let id = await inserirAlunos(novoAluno);
+
+  resp.send({
+    novoId: id
+  })
+})
+
+api.get('/livros', async (req, resp) => {
+  let registros = await listarLivro();
+  resp.send(registros);
+})
+
+api.post('/livros', async (req, resp) => {
+  let novoLivro = req.body;
+  let id = await inserirLivro(novoLivro);
+
+  resp.send({
+    novoId: id
+  })
+})
+
+api.get('/user', async (req, resp) =>{
+  let registros = await listarUsers();
+  resp.send(registros);
+})
+
+api.post('/user', async (req, resp) =>{
+  let novoUsers = req.body;
+  let id = await inserirUsers(novoUsers);
+
+  resp.send({
+    novoId: id
+  })
+})
+
+api.get('/produ', async (req, resp) =>{
+  let registros = await listarProdutos();
+  resp.send(registros);
+})
+
+api.post('/produ', async (req, resp) =>{
+  let novoProduto = req.body;
+  let id = await inserirProdutos(novoProduto);
 
   resp.send({
     novoId: id

@@ -1,3 +1,5 @@
+import { connection } from "./connections.js";
+
 export async function listarTenis() {
     const comando = `
     select *

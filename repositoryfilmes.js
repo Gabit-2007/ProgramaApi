@@ -1,3 +1,5 @@
+import { connection } from "./connections.js";
+
 export async function listarFilmes() {
     const comando = `
     select *

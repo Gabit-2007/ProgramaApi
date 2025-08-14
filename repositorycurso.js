@@ -40,11 +40,9 @@ export async function filtrarPorNome(nome) {
      WHERE nome like ?
   `
 
-  let [registros] = await conection.query(comando, ['%'+nome+'%']);
+  let [registros] = await connection.query(comando, ['%'+nome+'%']);
   return registros;
 }
-
-import { conection } from "./conection.js"
 
 export async function deletarCurso(id) {
   const comando = `
@@ -52,5 +50,6 @@ export async function deletarCurso(id) {
           WHERE id = ?
   `
 
-  let [info] = await conection.query(comando, [id]);
+  let [info] = await connection.query(comando, [id]);
 }
+
