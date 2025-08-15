@@ -1,4 +1,4 @@
-import { inserirAlunos, listarAlunos } from "./repositoryaluno.js";
+import * as repo1 from "./repositoryaluno.js";
 import * as repo from "./repositorycurso.js"
 import express from 'express'
 import { inserirLivro, listarLivro } from "./repositorylivro.js";
@@ -47,6 +47,8 @@ api.delete('/curso/:id', async (req, resp) => {
   resp.send();
 })
 
+////////////////////////////////////////////////
+
 api.get('/tenis', async (req, resp) => {
     let registros = await listarTenis();
     resp.send(registros);
@@ -61,6 +63,8 @@ api.post('/tenis', async (req, resp) => {
     novoId: id
   })
 })
+
+/////////////////////////////////////////////////
 
 api.get('/animes', async (req, resp) => {
     let registros = await listarAnimes();
@@ -77,6 +81,8 @@ api.post('/animes', async (req, resp) => {
   })
 })
 
+////////////////////////////////////////////////////
+
 api.get('/series', async (req, resp) => {
     let registros = await listarSeries();
     resp.send(registros);
@@ -91,6 +97,8 @@ api.post('/series', async (req, resp) => {
     novoId: id
   })
 })
+
+////////////////////////////////////////////////////
 
 api.get('/filmes', async (req, resp) => {
     let registros = await listarFilmes();
@@ -107,20 +115,44 @@ api.post('/filmes', async (req, resp) => {
   })
 })
 
+///////////////////////////////////////////////////
+
 api.get('/alunoss', async (req, resp) => {
-  let registros = await listarAlunos();
+  let registros = await repo1.listarAlunos();
   resp.send(registros)
+})
+
+api.get('/alunoss/filtrar', async (req, resp) => {
+  let nome = req.query.nome;
+  let registros = await repo1.filtrarPorNome1(nome);
+  resp.send(registros);
+})
+
+api.get('/alunoss/:id', async (req, resp) => {
+  let id = req.params.id;
+  let registros = await repo1.consultarAlunos(id);
+  resp.send(registros);
 })
 
 api.post('/alunoss', async (req, resp) => {
   let novoAluno = req.body;
 
-  let id = await inserirAlunos(novoAluno);
+  let id = await repo1.inserirAlunos(novoAluno);
 
   resp.send({
     novoId: id
   })
 })
+
+api.put('/alunoss/:id', async (req, resp) => {
+  let id = req.params.id;
+  let novosDados = req.body;
+
+  await repo1.alterarAlunos(id, novosDados);
+  resp.send();
+})
+
+///////////////////////////////////////////////////////
 
 api.get('/livros', async (req, resp) => {
   let registros = await listarLivro();
@@ -136,6 +168,8 @@ api.post('/livros', async (req, resp) => {
   })
 })
 
+/////////////////////////////////////////////////////
+
 api.get('/user', async (req, resp) =>{
   let registros = await listarUsers();
   resp.send(registros);
@@ -150,6 +184,8 @@ api.post('/user', async (req, resp) =>{
   })
 })
 
+/////////////////////////////////////////////////////////
+
 api.get('/produ', async (req, resp) =>{
   let registros = await listarProdutos();
   resp.send(registros);
@@ -163,5 +199,7 @@ api.post('/produ', async (req, resp) =>{
     novoId: id
   })
 })
+
+//////////////////////////////////////////////////////////
 
 api.listen(5010, () => console.log('..: API subiu com sucesso!'));

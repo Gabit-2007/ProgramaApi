@@ -53,3 +53,19 @@ export async function deletarCurso(id) {
   let [info] = await connection.query(comando, [id]);
 }
 
+export async function alterarCurso(id, novosDados) {
+  const comando = `
+    UPDATE curso
+       SET nome = ?,
+           carga_horaria = ?,
+           area = ?
+     WHERE id = ?
+  `
+
+  let [info] = await connection.query(comando, [
+    novosDados.nome,
+    novosDados.carga_horaria,
+    novosDados.area,
+    id
+  ])
+}
