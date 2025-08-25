@@ -1,4 +1,4 @@
-import { connection } from "./connections.js";
+import { connection } from "../connections.js";
 
 export async function listarCursos() {
   const comando = `
